@@ -35,7 +35,7 @@ CREATE TABLE MORADORES (
 		idRecebedor SERIAL PRIMARY KEY NOT NULL,
 		cpf_cnpj VARCHAR(20) NOT NULL,
 		data_hora timestamp,
-		nomeRecebedor VARCHAR(100)
+		nomeRecebedor VARCHAR(50)
 
 	);
 	
@@ -72,7 +72,7 @@ CREATE TABLE MORADORES (
 		dataProducao DATE,
 		dataDistribuicao DATE,
 		qtProduzida DECIMAL ,
-		nomeColeta VARCHAR(100),
+		nomeColeta VARCHAR(50),
 		idRecebedor SERIAL  NOT NULL,
 		FOREIGN KEY (idComposteira) REFERENCES COMPOSTEIRAS (idComposteira),
 		FOREIGN KEY (idRecebedor) REFERENCES RECEBEDORES (idRecebedor)

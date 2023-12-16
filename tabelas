@@ -1,114 +1,95 @@
 CREATE TABLE MORADORES (
+    idMorador SERIAL PRIMARY KEY NOT NULL,
+    cod_contribuinte_iptu VARCHAR(15) NOT NULL,
+    nome VARCHAR(50) NOT NULL,
+    cpf VARCHAR(20) NOT NULL,
+    telefone VARCHAR(20) NOT NULL
+);
 
-		idMorador SERIAL PRIMARY KEY NOT NULL,
-		cod_contribuinte_iptu VARCHAR(15) NOT NULL,
-		nome VARCHAR(50) NOT NULL,
-		cpf VARCHAR(20) NOT NULL,
-		telefone VARCHAR(20) NOT NULL
+CREATE TABLE RESIDUOS (
+    codColeta SERIAL PRIMARY KEY NOT NULL,
+    qtDoada DECIMAL NOT NULL,
+    dataRecebimento DATE NOT NULL,
+    idmorador INTEGER
+);
 
-	);
-		
-		
-	CREATE TABLE RESIDUOS (
+CREATE TABLE MATERIAIS (
+    codEentrega SERIAL PRIMARY KEY NOT NULL,
+    dataEntrega DATE NOT NULL,
+    qtCerragem DECIMAL NOT NULL,
+    qtMinhocas DECIMAL NOT NULL,
+    qtTerra DECIMAL NOT NULL
+);
 
-		codColeta SERIAL PRIMARY KEY NOT NULL,
-		qtDoada Decimal NOT NULL,
-		dataRecebimento DATE NOT NULL,
-		idmorador INTEGER
+CREATE TABLE RECEBEDORES (
+    idRecebedor SERIAL PRIMARY KEY NOT NULL,
+    cpf_cnpj VARCHAR(20) NOT NULL,
+    data_hora TIMESTAMP,
+    nomeRecebedor VARCHAR(50)
+);
 
-	);
-		
-	
-	CREATE TABLE MATERIAIS (
+CREATE TABLE COMPOSTEIRAS (
+    idComposteira SERIAL PRIMARY KEY NOT NULL,
+    codColeta INTEGER,
+    dataManejo DATE NOT NULL,
+    datainsercao DATE NOT NULL,
+    dataEntrega DATE NOT NULL,
+    qtCerragem DECIMAL NOT NULL,
+    qtMinhocas DECIMAL NOT NULL,
+    qtTerra DECIMAL NOT NULL,
+    codEntrega INTEGER
+);
 
-		codEentrega SERIAL PRIMARY KEY NOT NULL,
-		dataEntrega date NOT NULL,
-		qtCerragem DECIMAL NOT NULL,
-		qtMinhocas DECIMAL NOT NULL,
-		qtTerra DECIMAL NOT NULL
+CREATE TABLE COMPOSTO_HUMUS (
+    idColetaHumus SERIAL PRIMARY KEY NOT NULL,
+    idComposteira INTEGER NOT NULL,
+    dataProducao DATE,
+    dataDistribuicao DATE,
+    qtProduzida DECIMAL,
+    nomeColeta VARCHAR(50),
+    idRecebedor SERIAL NOT NULL,
+    FOREIGN KEY (idComposteira) REFERENCES COMPOSTEIRAS (idComposteira),
+    FOREIGN KEY (idRecebedor) REFERENCES RECEBEDORES (idRecebedor)
+);
 
-	);
-	
-	
-	CREATE TABLE RECEBEDORES (
+CREATE TABLE COMPOSTO_LIQUIDO (
+    idColetaLiquido SERIAL PRIMARY KEY NOT NULL,
+    idComposteira INTEGER NOT NULL,
+    dataProducao DATE,
+    dataDistribuicao DATE,
+    qtProduzida DECIMAL,
+    nomeColeta VARCHAR(50),
+    idRecebedor SERIAL NOT NULL,
+    FOREIGN KEY (idComposteira) REFERENCES COMPOSTEIRAS (idComposteira),
+    FOREIGN KEY (idRecebedor) REFERENCES RECEBEDORES (idRecebedor)
+);
 
-		idRecebedor SERIAL PRIMARY KEY NOT NULL,
-		cpf_cnpj VARCHAR(20) NOT NULL,
-		data_hora timestamp,
-		nomeRecebedor VARCHAR(50)
+CREATE TABLE Doa (
+    idDoacao SERIAL PRIMARY KEY NOT NULL,
+    idMorador INTEGER NOT NULL,
+    codColeta SERIAL NOT NULL,
+    FOREIGN KEY (idMorador) REFERENCES MORADORES (idMorador),
+    FOREIGN KEY (codColeta) REFERENCES RESIDUOS (codColeta)
+);
 
-	);
-	
-	CREATE TABLE COMPOSTEIRAS (
-		
-		idComposteira SERIAL PRIMARY KEY NOT NULL,
-		codColeta INTEGER,
-		dataManejo DATE NOT NULL,
-		datainsercao DATE NOT NULL,
-		dataEntrega DATE NOT NULL,
-		qtCerragem DECIMAL NOT NULL,
-		qtMinhocas DECIMAL NOT NULL,
-		qtTerra DECIMAL NOT NULL,
-		codEntrega INTEGER
-	);
-	
-	CREATE TABLE COMPOSTO_HUMUS (
-		
-		idColetaHumus SERIAL PRIMARY KEY NOT NULL,
-		idComposteira INTEGER NOT NULL,
-		dataProducao DATE,
-		dataDistribuicao DATE,
-		qtProduzida DECIMAL,
-		nomeColeta VARCHAR(50),
-		idRecebedor SERIAL NOT NULL,
-		FOREIGN KEY (idComposteira) REFERENCES COMPOSTEIRAS (idComposteira),
-		FOREIGN KEY (idRecebedor) REFERENCES RECEBEDORES (idRecebedor)
-	);
-	
-	CREATE TABLE COMPOSTO_LIQUIDO (
-		
-		idColetaLiquido SERIAL PRIMARY KEY NOT NULL,
-		idComposteira INTEGER NOT NULL,
-		dataProducao DATE,
-		dataDistribuicao DATE,
-		qtProduzida DECIMAL ,
-		nomeColeta VARCHAR(50),
-		idRecebedor SERIAL  NOT NULL,
-		FOREIGN KEY (idComposteira) REFERENCES COMPOSTEIRAS (idComposteira),
-		FOREIGN KEY (idRecebedor) REFERENCES RECEBEDORES (idRecebedor)
-	);
-	
-	CREATE TABLE Doa (
+CREATE TABLE Compostados (
+    idComposteira SERIAL PRIMARY KEY NOT NULL,
+    idColetaHumus SERIAL NOT NULL,
+    idColetaLiquido SERIAL NOT NULL,
+    codColeta SERIAL NOT NULL,
+    FOREIGN KEY (codColeta) REFERENCES RESIDUOS (codColeta),
+    FOREIGN KEY (idColetaLiquido) REFERENCES COMPOSTO_LIQUIDO(idColetaLiquido),
+    FOREIGN KEY (idColetaHumus) REFERENCES COMPOSTO_HUMUS(idColetaHumus),
+    FOREIGN KEY (idComposteira) REFERENCES COMPOSTEIRAS (idComposteira)
+);
 
-		idMorador SERIAL PRIMARY KEY  NOT NULL,
-		codColeta SERIAL  NOT NULL,
-		FOREIGN KEY (idMorador) REFERENCES MORADORES (idMorador),
-		FOREIGN KEY (codColeta) REFERENCES RESIDUOS (codColeta)
-
-	);
-	
-	CREATE TABLE Compostados (
-
-		idComposteira SERIAL PRIMARY KEY NOT NULL,
-		idColetaHumus SERIAL  NOT NULL,
-		idColetaLiquido SERIAL NOT NULL,
-		codColeta SERIAL NOT NULL,
-		FOREIGN KEY (codColeta) REFERENCES RESIDUOS (codColeta),
-		FOREIGN KEY (idColetaLiquido) REFERENCES COMPOSTO_LIQUIDO(idColetaLiquido),
-		FOREIGN KEY (idColetaHumus) REFERENCES COMPOSTO_HUMUS(idColetaHumus),
-		FOREIGN KEY (idComposteira) REFERENCES COMPOSTEIRAS (idComposteira)
-
-		);
-		
-	CREATE TABLE Utilizados (
-
-		codEentrega SERIAL PRIMARY KEY NOT NULL,
-		idComposteira SERIAL NOT NULL,
-		idColetaHumus SERIAL NOT NULL,
-		idColetaLiquido SERIAL NOT NULL,
-		FOREIGN KEY (codEentrega) REFERENCES MATERIAIS (codEentrega),
-		FOREIGN KEY (idColetaLiquido) REFERENCES COMPOSTO_LIQUIDO(idColetaLiquido),
-		FOREIGN KEY (idColetaHumus) REFERENCES COMPOSTO_HUMUS(idColetaHumus),
-		FOREIGN KEY (idComposteira) REFERENCES COMPOSTEIRAS (idComposteira)
-
-	);
+CREATE TABLE Utilizados (
+    codEentrega SERIAL PRIMARY KEY NOT NULL,
+    idComposteira SERIAL NOT NULL,
+    idColetaHumus SERIAL NOT NULL,
+    idColetaLiquido SERIAL NOT NULL,
+    FOREIGN KEY (codEentrega) REFERENCES MATERIAIS (codEentrega),
+    FOREIGN KEY (idColetaLiquido) REFERENCES COMPOSTO_LIQUIDO(idColetaLiquido),
+    FOREIGN KEY (idColetaHumus) REFERENCES COMPOSTO_HUMUS(idColetaHumus),
+    FOREIGN KEY (idComposteira) REFERENCES COMPOSTEIRAS (idComposteira)
+);

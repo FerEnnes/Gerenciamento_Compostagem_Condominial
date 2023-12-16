@@ -1,0 +1,39 @@
+-- Inserção na tabela MORADORES
+INSERT INTO MORADORES (cod_contribuinte_iptu, nome, cpf, telefone)
+VALUES ('123456789012345', 'João da Silva', '12345678901', '123456789');
+
+-- Inserção na tabela RESIDUOS
+INSERT INTO RESIDUOS (qtDoada, dataRecebimento, idmorador)
+VALUES (50, '2023-07-05', 1);
+
+-- Inserção na tabela MATERIAIS
+INSERT INTO MATERIAIS (dataEntrega, qtCerragem, qtMinhocas, qtTerra)
+VALUES ('2023-07-06', 2.5, 100, 10);
+
+-- Inserção na tabela RECEBEDORES
+INSERT INTO RECEBEDORES (cpf_cnpj, data_hora, nomeRecebedor)
+VALUES ('12345678901', CURRENT_TIMESTAMP, 'Recebedor 1');
+
+-- Inserção na tabela COMPOSTEIRAS
+INSERT INTO COMPOSTEIRAS (codColeta, dataManejo, datainsercao, dataEntrega, qtCerragem, qtMinhocas, qtTerra, codEntrega)
+VALUES (1, '2023-07-04', '2023-07-04', '2023-07-06', 2.5, 100, 10, 1);
+
+-- Inserção na tabela COMPOSTO_HUMUS
+INSERT INTO COMPOSTO_HUMUS (idComposteira, dataProducao, dataDistribuicao, qtProduzida, nomeColeta, idRecebedor)
+VALUES (4, '2023-07-06', '2023-07-07', 20, 'Coleta Humus', 4);
+
+-- Inserção na tabela COMPOSTO_LIQUIDO
+INSERT INTO COMPOSTO_LIQUIDO (idComposteira, dataProducao, dataDistribuicao, qtProduzida, nomeColeta, idRecebedor)
+VALUES (4, '2023-07-06', '2023-07-07', 30, 'Coleta Líquido', 4);
+
+-- Inserção adicional na tabela COMPOSTO_LIQUIDO
+INSERT INTO COMPOSTO_LIQUIDO (idComposteira, dataProducao, dataDistribuicao, qtProduzida, nomeColeta, idRecebedor)
+VALUES (4, '2023-07-06', '2023-07-07', 30, 'Coleta Líquido', 4);
+
+-- Inserção adicional na tabela COMPOSTO_HUMUS
+INSERT INTO COMPOSTO_HUMUS (idComposteira, dataProducao, dataDistribuicao, qtProduzida, nomeColeta, idRecebedor)
+VALUES (4, '2023-07-06', '2023-07-07', 20, 'Coleta Humus', 4);
+
+-- Inserção adicional na tabela RESIDUOS
+INSERT INTO RESIDUOS (qtDoada, dataRecebimento, idmorador)
+VALUES (50, '2023-07-05', 4);

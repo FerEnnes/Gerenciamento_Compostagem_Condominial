@@ -1,0 +1,32 @@
+
+-- Stored Procedure para Inserir Morador
+
+CREATE OR REPLACE PROCEDURE InserirMorador(
+    IN p_cod_iptu ContribuinteIPTU,
+    IN p_nome NomeMorador,
+    IN p_cpf CPFMorador,
+    IN p_telefone TelefoneMorador
+)
+LANGUAGE SQL
+AS $$
+INSERT INTO MORADORES (cod_contribuinte_iptu, nome, cpf, telefone)
+VALUES (p_cod_iptu, p_nome, p_cpf, p_telefone);
+$$;
+
+
+--Stored Procedure para Atualizar Composto Humus
+
+CREATE OR REPLACE PROCEDURE AtualizarCompostoHumus(
+    IN p_id_humus INTEGER,
+    IN p_data_distribuicao DATE,
+    IN p_qt_produzida DECIMAL,
+    IN p_nome_coleta NomeRecebedor
+)
+LANGUAGE SQL
+AS $$
+UPDATE COMPOSTO_HUMUS
+SET dataDistribuicao = p_data_distribuicao,
+    qtProduzida = p_qt_produzida,
+    nomeColeta = p_nome_coleta
+WHERE idColetaHumus = p_id_humus;
+$$;

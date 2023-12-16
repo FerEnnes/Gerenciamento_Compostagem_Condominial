@@ -1,0 +1,25 @@
+-- View para listar informações de compostos líquidos e seus status
+
+CREATE OR REPLACE VIEW ViewCompostoLiquidoStatus AS
+SELECT
+    cl.idColetaLiquido,
+    cl.idComposteira,
+    cl.dataProducao,
+    cl.dataDistribuicao,
+    cl.qtProduzida,
+    cl.nomeColeta,
+    cl.idRecebedor,
+    ObterStatusCompostoLiquido(cl.qtProduzida) AS status
+FROM COMPOSTO_LIQUIDO cl;
+
+-- View para listar informações de moradores que fizeram doações
+
+CREATE OR REPLACE VIEW ViewDoacoesMoradores AS
+SELECT
+    m.idMorador,
+    m.nome,
+    m.cpf,
+    r.qtDoada,
+    r.dataRecebimento
+FROM MORADORES m
+JOIN RESIDUOS r ON m.idMorador = r.idmorador;
